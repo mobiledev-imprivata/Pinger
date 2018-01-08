@@ -9,6 +9,10 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var pingButton: UIButton!
+    
+    let beaconManager = BeaconManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +25,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func ping(_ sender: Any) {
+        pingButton.isEnabled = false
+        beaconManager.startBeacon()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.beaconManager.stopBeacon()
+            self.pingButton.isEnabled = true
+        }
     }
     
     @IBAction func read(_ sender: Any) {
