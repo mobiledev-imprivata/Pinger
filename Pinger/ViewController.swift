@@ -20,6 +20,11 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    @IBAction func ping(_ sender: Any) {
+    }
+    
+    @IBAction func read(_ sender: Any) {
+    }
+    
 }
 
