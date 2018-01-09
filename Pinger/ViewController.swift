@@ -12,28 +12,34 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var pingButton: UIButton!
     
-    let beaconManager = BeaconManager()
-
+    var beaconManager: BeaconManager!
+    var bluetoothManager: BluetoothManager!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        beaconManager = BeaconManager()
+        bluetoothManager = BluetoothManager()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     @IBAction func ping(_ sender: Any) {
         pingButton.isEnabled = false
         beaconManager.startBeacon()
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             self.beaconManager.stopBeacon()
             self.pingButton.isEnabled = true
+            self.read(self)
         }
     }
     
     @IBAction func read(_ sender: Any) {
+        bluetoothManager.go()
     }
     
 }

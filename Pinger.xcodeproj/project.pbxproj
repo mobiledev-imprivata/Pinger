@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D60069FB20051A5F008CC061 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60069FA20051A5F008CC061 /* BluetoothManager.swift */; };
 		D668B5B52003DDD2001A29FE /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D668B5B42003DDD2001A29FE /* Logger.swift */; };
 		D668B5B72003DE7B001A29FE /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D668B5B62003DE7B001A29FE /* BeaconManager.swift */; };
 		D6D4910D2003CB36001A01D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D4910C2003CB36001A01D1 /* AppDelegate.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D60069FA20051A5F008CC061 /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		D668B5B42003DDD2001A29FE /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		D668B5B62003DE7B001A29FE /* BeaconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
 		D6D491092003CB36001A01D1 /* Pinger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pinger.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +62,7 @@
 			children = (
 				D668B5B42003DDD2001A29FE /* Logger.swift */,
 				D668B5B62003DE7B001A29FE /* BeaconManager.swift */,
+				D60069FA20051A5F008CC061 /* BluetoothManager.swift */,
 				D6D4910C2003CB36001A01D1 /* AppDelegate.swift */,
 				D6D4910E2003CB36001A01D1 /* ViewController.swift */,
 				D6D491102003CB36001A01D1 /* Main.storyboard */,
@@ -146,6 +149,7 @@
 				D668B5B72003DE7B001A29FE /* BeaconManager.swift in Sources */,
 				D668B5B52003DDD2001A29FE /* Logger.swift in Sources */,
 				D6D4910D2003CB36001A01D1 /* AppDelegate.swift in Sources */,
+				D60069FB20051A5F008CC061 /* BluetoothManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
