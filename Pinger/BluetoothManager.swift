@@ -30,13 +30,13 @@ final class BluetoothManager: NSObject {
     }
     
     func go() {
-        log("go")
+        log(.btle, "go")
         guard isPoweredOn else {
-            log("not powered on")
+            log(.btle, "not powered on")
             return
         }
         guard !isBusy else {
-            log("busy, ignoring request")
+            log(.btle, "busy, ignoring request")
             return
         }
         isBusy = true
@@ -44,7 +44,7 @@ final class BluetoothManager: NSObject {
     }
     
     private func startScanForPeripheral(serviceUuid: CBUUID) {
-        log("startScanForPeripheral")
+        log(.btle, "startScanForPeripheral")
         centralManager.stopScan()
         scanTimer = Timer.scheduledTimer(timeInterval: timeoutInSecs, target: self, selector: #selector(timeout), userInfo: nil, repeats: false)
         centralManager.scanForPeripherals(withServices: [serviceUuid], options: nil)
@@ -52,13 +52,13 @@ final class BluetoothManager: NSObject {
     
     // can't be private because called by timer
     @objc func timeout() {
-        log("timed out")
+        log(.btle, "timed out")
         centralManager.stopScan()
         isBusy = false
     }
     
     private func disconnect() {
-        log("disconnect")
+        log(.btle, "disconnect")
         centralManager.cancelPeripheralConnection(peripheral)
         peripheral = nil
         characteristic = nil
@@ -85,12 +85,12 @@ extension BluetoothManager: CBCentralManagerDelegate {
         case .poweredOn:
             caseString = "poweredOn"
         }
-        log("centralManagerDidUpdateState \(caseString!)")
+        log(.btle, "centralManagerDidUpdateState \(caseString!)")
         isPoweredOn = centralManager.state == .poweredOn
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        log("centralManager didDiscoverPeripheral")
+        log(.btle, "centralManager didDiscoverPeripheral")
         scanTimer.invalidate()
         centralManager.stopScan()
         self.peripheral = peripheral
@@ -98,7 +98,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        log("centralManager didConnectPeripheral")
+        log(.btle, "centralManager didConnectPeripheral")
         self.peripheral.delegate = self
         peripheral.discoverServices([serviceUUID])
     }
@@ -109,20 +109,20 @@ extension BluetoothManager: CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         let message = "peripheral didDiscoverServices " + (error == nil ? "ok" :  ("error " + error!.localizedDescription))
-        log(message)
+        log(.btle, message)
         guard error == nil else { return }
         for service in peripheral.services! {
-            log("service \(service.uuid)")
+            log(.btle, "service \(service.uuid)")
             peripheral.discoverCharacteristics(nil, for: service)
         }
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         let message = "peripheral didDiscoverCharacteristicsFor service " + (error == nil ? "\(service.uuid) ok" :  ("error " + error!.localizedDescription))
-        log(message)
+        log(.btle, message)
         guard error == nil else { return }
         for characteristic in service.characteristics! {
-            log("characteristic \(characteristic.uuid)")
+            log(.btle, "characteristic \(characteristic.uuid)")
             if characteristic.uuid == characteristicUUID {
                 self.characteristic = characteristic
                 peripheral.readValue(for: characteristic)
@@ -132,13 +132,13 @@ extension BluetoothManager: CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         let message = "peripheral didUpdateValueFor characteristic " + (error == nil ? "\(characteristic.uuid) ok" :  ("error " + error!.localizedDescription))
-        log(message)
+        log(.btle, message)
         defer {
             disconnect()
         }
         guard error == nil else { return }
         let response = String(data: characteristic.value!, encoding: String.Encoding.utf8)!
-        log("\(response)")
+        log(.btle, "\(response)")
     }
     
 }

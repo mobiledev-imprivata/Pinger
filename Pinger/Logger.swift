@@ -8,14 +8,17 @@
 
 import Foundation
 
+enum Component: String {
+    case app, vc, beac, btle
+}
+
 var dateFormatter: DateFormatter = {
     let df = DateFormatter()
     df.dateFormat = "HH:mm:ss.SSS"
     return df
 }()
 
-func log(_ message: String) {
+func log(_ component: Component, _ message: String) {
     let timestamp = dateFormatter.string(from: Date())
-    let text = "[\(timestamp)] \(message)"
-    print(text)
+    print("[\(timestamp)] \(component.rawValue.uppercased().padding(toLength: 4, withPad: " ", startingAt: 0)) \(message)")
 }

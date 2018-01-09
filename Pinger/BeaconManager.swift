@@ -30,13 +30,13 @@ final class BeaconManager: NSObject {
     }
     
     func startBeacon() {
-        log("startBeacon")
+        log(.beac, "startBeacon")
         guard isPoweredOn else {
-            log("not powered on")
+            log(.beac, "not powered on")
             return
         }
         guard !isBeaconing else {
-            log("already running")
+            log(.beac, "already running")
             return
         }
         let beaconPeripheralData = (beaconRegion.peripheralData(withMeasuredPower: nil) as NSDictionary) as! [String:AnyObject]
@@ -44,9 +44,9 @@ final class BeaconManager: NSObject {
     }
     
     func stopBeacon() {
-        log("stopBeacon")
+        log(.beac, "stopBeacon")
         guard beaconRegion != nil && peripheralManager != nil else {
-            log("already stopped")
+            log(.beac, "already stopped")
             return
         }
         peripheralManager.stopAdvertising()
@@ -58,12 +58,12 @@ final class BeaconManager: NSObject {
 extension BeaconManager: CBPeripheralManagerDelegate {
     
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
-        log("peripheralManagerDidUpdateState")
+        log(.beac, "peripheralManagerDidUpdateState")
         if peripheral.state == .poweredOn {
-            log("poweredOn")
+            log(.beac, "poweredOn")
             isPoweredOn = true
         } else if peripheral.state == .poweredOff {
-            log("poweredOff")
+            log(.beac, "poweredOff")
             isPoweredOn = false
             stopBeacon()
         }
@@ -71,7 +71,7 @@ extension BeaconManager: CBPeripheralManagerDelegate {
     
     func peripheralManagerDidStartAdvertising(_ peripheral: CBPeripheralManager, error: Error?) {
         let message = "peripheralManagerDidStartAdvertising " +  (error == nil ? "ok" : "error " + error!.localizedDescription)
-        log(message)
+        log(.beac, message)
         isBeaconing = true
     }
     
