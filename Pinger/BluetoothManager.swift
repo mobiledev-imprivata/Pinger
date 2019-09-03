@@ -84,6 +84,8 @@ extension BluetoothManager: CBCentralManagerDelegate {
             caseString = "poweredOff"
         case .poweredOn:
             caseString = "poweredOn"
+        @unknown default:
+            caseString = "wtf!"
         }
         log(.btle, "centralManagerDidUpdateState \(caseString!)")
         isPoweredOn = centralManager.state == .poweredOn
