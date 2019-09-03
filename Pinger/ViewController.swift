@@ -29,6 +29,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func ping(_ sender: Any) {
+        // singlePing()
+        startPingCycle()
+    }
+    
+    private func singlePing() {
         pingButton.isEnabled = false
         beaconManager.startBeacon()
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
@@ -36,6 +41,17 @@ class ViewController: UIViewController {
             self.pingButton.isEnabled = true
             self.read(self)
         }
+    }
+    
+    private func startPingCycle() {
+        let timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+            self.beaconManager.startBeacon()
+            Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
+                self.beaconManager.stopBeacon()
+                self.read(self)
+            }
+        }
+        timer.fire()
     }
     
     @IBAction func read(_ sender: Any) {
